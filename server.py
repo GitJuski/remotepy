@@ -13,7 +13,7 @@ args = parser.parse_args()
 LISTEN: str = args.listen
 PORT: int = int(args.port)
 
-if LISTEN == None:
+if not LISTEN:
     LISTEN = "0.0.0.0"
 
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER) # Use TLS
