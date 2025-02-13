@@ -39,6 +39,20 @@ And here's what we see in Wireshark:
 
 As we can see, the data is encrypted.
 
+To show this more, I created temporal cleartex-server.py and cleartex-client.py. I removed the ssl module code from them and demonstrated how it looks like without encryption.
+
+Here, I opened the server, connected to it, ran commands and exited.
+
+![5.png](images/5.png)
+
+Here's the Wireshark capture. We can see the command whoami and other commands in other lines
+
+![6.png](images/6.png)
+
+Here's the response to the ls command:
+
+![7.png](images/7.png)
+
 # DISCLAIMER
 
 This is an experimental product created for educational purposes. Use at your own risk. I'm not to be held accountable should this product cause any harm directly or indirectly.
