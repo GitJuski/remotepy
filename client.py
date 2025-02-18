@@ -11,6 +11,9 @@ args = parser.parse_args()
 # Host address and port
 HOST: str = args.host
 PORT: int = int(args.port)
+ANSI_GREEN: str = "\x1b[32m"
+ANSI_RED: str = "\x1b[31m"
+ANSI_RESET: str = "\x1b[0m"
 
 # ssl module context settings. The last two are to allow self signed certificate.
 context = ssl.create_default_context()
@@ -24,15 +27,19 @@ try:
         with context.wrap_socket(s, server_hostname=HOST) as ssock:
             # Connect with wrapped socket
             ssock.connect((HOST, PORT))
+            path: str = ssock.recv(1024).decode() # Receive the current working directory
             while True:
-                command: str = input("")
+                command: str = input(f"{ANSI_GREEN}{path}${ANSI_RESET} ")
                 if command == "exit":
                     break
                 ssock.sendall((command).encode()) # Send the command to the server
-                data = ssock.recv(1024).decode() # Receive the response data
-                print(data)
+                if not command.startswith("cd"):
+                    data = ssock.recv(4096).decode() # Receive the response data
+                    print(data)
+                elif command.startswith("cd"): # If the command starts with cd ...
+                    path = ssock.recv(1024).decode() # Receive the new current working directory
 
 except KeyboardInterrupt:
-    print("Exiting...\n")
+    print(f"{ANSI_RED}Exiting...{ANSI_RESET}\n")
 except Exception as e:
     print(e)

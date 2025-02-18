@@ -2,6 +2,7 @@ import socket
 import argparse
 import subprocess
 import ssl
+import os
 
 # Command line arguments
 parser = argparse.ArgumentParser(prog="serverpy", description="Remote connection server")
@@ -31,12 +32,23 @@ try:
             conn, addr = ssock.accept() # Accept the connection encrypted
             with conn:
                 print(f"Connected by {addr}")
+                conn.sendall(os.getcwd().encode()) # Send the current working directory
                 while True:
                     command = conn.recv(1024).decode() # Receive a command from the client
                     if not command:
                         break
+                    if command.startswith("cd"):
+                        try:
+                            # Split the command so cd .. would return ["cd", ".."]. Change into the second part eg. "..". Send the current working directory after move
+                            command = command.split(" ")
+                            os.chdir(command[-1])
+                            conn.sendall(os.getcwd().encode())
+                        except Exception as e:
+                            print(e)
                     else:
                         result = subprocess.run(command, shell=True, capture_output=True, text=True) # Run the command locally
+                        if not result.stdout:
+                            conn.sendall("Nothing to show".encode())
                         if not result.stderr: # If it does not result in a error -> send result
                             conn.sendall((result.stdout).encode())
                         else: # If it results in error -> send error
