@@ -3,11 +3,6 @@
 This fun and experimental little project is really simple.
 Simple commands like `ls`, `cat`, `cd <target>` works. snakecat.py file is has both the server and client functionality.
 
-# SnakeCat usage
-
-`python3 snakecat -l 4444` starts the server and listens on socket 0.0.0.0:4444 meaning from anywhere to port 4444
-`python3 snakecat --host 127.0.0.1 -p 4444` Starts the client and connects to host 127.0.0.1 port 4444
-
 I had created these client and server applications a while back. I had the idea of encrypting the data at transfer so I decided to implement it and publish this.
 
 It works with self-signed cert since this is an experimental/educational project. Here's how I created the needed private key and certification:
@@ -15,6 +10,11 @@ It works with self-signed cert since this is an experimental/educational project
 2. `openssl genrsa -out server-key.pem 2048`
 3. `openssl req -new -x509 -key server-key.pem -out server-cert.pem -days 365`
 4. Input some information when it asks. Then you have a certification signed with the private key
+
+# SnakeCat usage
+
+`python3 snakecat -l 4444` starts the server and listens on socket 0.0.0.0:4444 meaning from anywhere to port 4444
+`python3 snakecat --host 127.0.0.1 -p 4444` Starts the client and connects to host 127.0.0.1 port 4444
 
 # How it works?
 
