@@ -1,11 +1,12 @@
 # A trivial remote client/server setup with data encryption using TLS
 
-This fun and experimental little project is really simple. It only supports running commands with output at the moment. Commands like:
-- ls
-- whoami
-- cat
+This fun and experimental little project is really simple.
+Simple commands like `ls`, `cat`, `cd <target>` works. snakecat.py file is has both the server and client functionality.
 
-ETC.
+# SnakeCat usage
+
+`python3 snakecat -l 4444` starts the server and listens on socket 0.0.0.0:4444 meaning from anywhere to port 4444
+`python3 snakecat --host 127.0.0.1 -p 4444` Starts the client and connects to host 127.0.0.1 port 4444
 
 I had created these client and server applications a while back. I had the idea of encrypting the data at transfer so I decided to implement it and publish this.
 
